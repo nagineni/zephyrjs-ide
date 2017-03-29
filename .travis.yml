@@ -33,8 +33,5 @@ branches:
     - master
     - travis
 
-cache:
-  directories: node_modules
-
 script:
   - ./test.sh
