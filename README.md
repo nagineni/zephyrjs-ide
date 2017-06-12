@@ -3,6 +3,24 @@
 [![Dependency Status](https://david-dm.org/01org/zephyrjs-ide.svg)](https://david-dm.org/01org/zephyrjs-ide)
 [![devDependency Status](https://david-dm.org/01org/zephyrjs-ide/dev-status.svg)](https://david-dm.org/01org/zephyrjs-ide#info=devDependencies)
 
+# Table of Contents
+
+- [Introduction](#introduction)
+- [How to start](#how-to-start)
+- [How to start with AoT](#how-to-start-with-aot-compilation)
+- [Tree-shaking with Rollup](#tree-shaking-with-rollup)
+- [Dockerization](#dockerization)
+  + [How to build and start the dockerized version of the application](#how-to-build-and-start-the-dockerized-version-of-the-application)
+  + [Development build and deployment](#development-build-and-deployment)
+  + [Production build and deployment](#production-build-and-deployment)
+- [Table of Content](#table-of-content)
+- [Configuration](#configuration)
+- [Environment Configuration](#environment-configuration)
+- [Tools documentation](#tools-documentation)
+- [Running tests](#running-tests)
+- [Contributing](#contributing)
+- [License](#license)
+
 # Introduction
 
 `JS IDE for Zephyr OS` is an online JavaScript editor that lets you upload code to a
@@ -135,24 +153,6 @@ $ docker-compose -f docker-compose.production.yml up -d zephyrjs-ide-nginx  # St
 ```
 
 Now open your browser at http://localhost:8000
-
-# Table of Contents
-
-- [Introduction](#introduction)
-- [How to start](#how-to-start)
-- [How to start with Aot](#how-to-start-with-aot-compilation)
-- [Tree-shaking with Rollup](#tree-shaking-with-rollup)
-- [Dockerization](#dockerization)
-  + [How to build and start the dockerized version of the application](#how-to-build-and-start-the-dockerized-version-of-the-application)
-  + [Development build and deployment](#development-build-and-deployment)
-  + [Production build and deployment](#production-build-and-deployment)
-- [Table of Content](#table-of-content)
-- [Configuration](#configuration)
-- [Environment Configuration](#environment-configuration)
-- [Tools documentation](#tools-documentation)
-- [Running tests](#running-tests)
-- [Contributing](#contributing)
-- [License](#license)
 
 # Configuration
 
