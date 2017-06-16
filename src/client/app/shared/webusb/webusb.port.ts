@@ -43,7 +43,8 @@ export class WebUsbPort {
                         str = this.decoder.decode(result.data);
 
                     if (!this.ashellReady)
-                        this.ashellReady = /^(\x1b\[33macm)/.test(str);
+                        this.ashellReady = true; //TODO: Check for the '$' prompt
+//                        this.ashellReady = /^(\x1b\[33macm)/.test(str);
 
                     if (str === 'raw') {
                         this.rawMode = true;
@@ -155,7 +156,7 @@ export class WebUsbPort {
 
     public read(): Promise<string> {
         return new Promise<string>((resolve, reject) => {
-            this.device.transferIn(3, 64).then((response: any) => {
+            this.device.transferIn(3, 68).then((response: any) => {
                 let decoded = this.decoder.decode(response.data);
                 resolve(decoded);
             });
@@ -200,27 +201,18 @@ export class WebUsbPort {
         });
     }
 
-    public run(data: string): Promise<string> {
+    public run(data: string, ihex: boolean = false): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             if (data.length === 0) {
                 reject('Empty data');
             }
 
-            this.send('echo off\n')
-                .then(() => this.send('set transfer ihex\n'))
-                .then(() => this.send('stop\n'))
-                .then(() => this.send('load\n'))
+            this.send('\x1D' + 'stop\n')  // ECHO OFF + stop
+                .then(() => this.send('save temp.dat\r\n'))
                 .then(() => {
-                    let ihex =
-                        this.convIHex(data);
-
-                    for (let line of ihex.split('\n')) {
-                        this.send(line + '\n');
-                    }
+                    this.send(data + '\x1A' + '\n');  // data + EOF
                 })
-                .then(() => this.send('run temp.dat\n'))
-                .then(() => this.send('set transfer raw\n'))
-                .then(() => this.send('echo on\n'))
+                .then(() => this.send('run temp.dat' + '\x1E' + '\n'))  // ECHO ON
                 .then((warning: string) => resolve(warning))
                 .catch((error: string) => reject(error));
         });
