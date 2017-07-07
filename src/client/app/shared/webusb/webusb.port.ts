@@ -224,13 +224,11 @@ public sleep (time: number) {
                         // catch up.  This prevents overflowing the UART
                         if (count < 20) {
                             this.send(line + '\n');
-                        }
-                        else
-                        {
+                        } else {
                             this.sleep(700).then(() => {
                             this.send(line + '\n');
                             count = 0;
-                            })
+                            });
                         }
                         count ++;
                     }
