@@ -201,9 +201,9 @@ export class WebUsbPort {
     }
 
 
-public sleep (time: number) {
-  return new Promise((resolve) => setTimeout(resolve, time));
-}
+    public sleep (time: number) {
+        return new Promise((resolve) => setTimeout(resolve, time));
+    }
 
     public run(data: string): Promise<string> {
         return new Promise<string>((resolve, reject) => {
@@ -215,7 +215,7 @@ public sleep (time: number) {
                 .then(() => this.send('set transfer ihex\n'))
                 .then(() => this.send('stop\n'))
                 .then(() => this.send('load\n'))
-                .then(() => {
+                .then(async () => {
                     let ihex =
                         this.convIHex(data);
                     var count = 0;
@@ -225,7 +225,7 @@ public sleep (time: number) {
                         if (count < 20) {
                             this.send(line + '\n');
                         } else {
-                            this.sleep(700).then(() => {
+                            await this.sleep(700).then(() => {
                             this.send(line + '\n');
                             count = 0;
                             });
