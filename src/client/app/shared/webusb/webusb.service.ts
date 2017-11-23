@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { WebUsbPortInterface } from './webusb.port.interface';
 import { WebUsbPort} from './webusb.port';
+import { WebUsbLinuxPort} from './webusblinux.port';
 import { SettingsService } from '../../pages/editor/settings.service';
 
 /**
@@ -25,10 +26,20 @@ export class WebUsbService {
 
     public requestPort(): Promise<WebUsbPortInterface> {
         return new Promise<WebUsbPortInterface>((resolve, reject) => {
-            const filters = [{
-                'vendorId': 0x8086,
-                'productId': 0xF8A1
-            }];
+            let backend = this.settingsService.getWebUsbConnectionBackend();
+            let filters;
+
+            if ("settingsService.WebUsbConnectionBackend.ASHELL_V1" === backend.toString()) {
+                filters = [{
+                    'vendorId': 0x0525,
+                    'productId': 0xa4a6
+                }];
+            } else {
+                filters = [{
+                    'vendorId': 0x8086,
+                    'productId': 0xF8A1
+                }];
+            }
 
             if (this.usb === undefined) {
                 reject('WebUSB not available');
@@ -36,8 +47,11 @@ export class WebUsbService {
 
             this.usb.requestDevice({'filters': filters})
             .then((device: any) => {
-                // TODO: create correct port according to settings
-                resolve(new WebUsbPort(device));
+                if ("settingsService.WebUsbConnectionBackend.ASHELL_V1" === backend.toString())
+                    resolve(new WebUsbLinuxPort(device));
+                else
+                    resolve(new WebUsbPort(device));
+
             })
             .catch((error: string) => {
                 reject(error);

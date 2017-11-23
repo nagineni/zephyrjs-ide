@@ -1,4 +1,5 @@
 import { WebUsbPort } from '../../shared/webusb/webusb.port';
+import { WebUsbLinuxPort } from '../../shared/webusb/webusblinux.port';
 
 export enum OPERATION_STATUS {
     NOT_STARTED,
