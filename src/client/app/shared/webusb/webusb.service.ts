@@ -24,10 +24,10 @@ export class WebUsbService {
 
     public requestPort(): Promise<WebUsbPort> {
         return new Promise<WebUsbPort>((resolve, reject) => {
-            const filters = [{
-                'vendorId': 0x8086,
-                'productId': 0xF8A1
-            }];
+            const filters = [
+                {'vendorId': 0x8086, 'productId': 0xF8A1},
+                {'vendorId': 0xDEAD, 'productId': 0xBEEF}
+            ];
 
             if (this.usb === undefined) {
                 reject('WebUSB not available');
